@@ -75,7 +75,7 @@ while endProg == 0:
 	if len(amtDict) > 0 :
 		print("=========================================")
 		print("    TRANSACTIONS ")
-		print(" (S) to save transaction  ")
+		print("                  [S] to save transaction")
 		print("=========================================")
 		for i in range(0,len(amtDict)):
 			if i in expenseDict.keys():
@@ -103,12 +103,12 @@ while endProg == 0:
 		elif menuChoice == "3":
 			endProg = 1
 	if len(amtDict) > 0 :
-		if menuChoice in "Ss":
+		if menuChoice == "":
+			pass
+		elif menuChoice in "Ss":
 			clearScreen()
 			print("SAVING")
 			input()
-			clearScreen
+			clearScreen()
 			print("SAVED!")
 				
-	else:
-		print("!!!!!!!!!!!!! Not a valid option !!!!!!!!!!!!!!!!!")
