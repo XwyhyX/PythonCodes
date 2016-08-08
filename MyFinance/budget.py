@@ -1,15 +1,25 @@
 import os
 
-def addExpense(startingBalance):
+def addExpense(startingBalance,tranCount):
 	print("=================================")
 	print("    Enter Expense:   " + "BAL>> " + str(currentBalance)+ " " + currency)
 	print("=================================")
 	expAmt = int(input(">> "))
+	print("=================================")
+	amtDict[tranCount] = {expAmt:input("    Description: ")}
+	expenseDict[tranCount] = amtDict[tranCount]
+	print("=================================")
 	clearScreen()
 	return startingBalance - expAmt
-def addIncome(startingBalance):
+def addIncome(startingBalance,tranCount):
+	print("=================================")
 	print("    Enter Income:   " + "BAL>> " + str(currentBalance)+ " " + currency)
+	print("=================================")
 	expAmt = int(input(">> "))
+	print("=================================")
+	amtDict[tranCount] = {expAmt:input("    Description: ")}
+	incomeDict[tranCount] = amtDict[tranCount]
+	print("=================================")
 	clearScreen()
 	return startingBalance + expAmt
 
@@ -20,6 +30,8 @@ def printBalance(currentBalance):
 	print("                 >>>>> " +str(currentBalance) +" "+ currency)
 	print("    (B) to go back")
 	print("    (Enter) Another Expense")
+	print (amtDict)
+	print (expenseDict)
 	print("=================================")
 	print(" ")
 	stop_var = input(">> ")
@@ -33,11 +45,18 @@ def printBalance(currentBalance):
 
 def clearScreen():
 	os.system('cls')
-
+	
+	
+#===INDICATOR VARIABLES HERE ==========
+tranCount = 0
 currency = "php"
 endProg = 0
 stop_opt = " "
 clearScreen()
+#===Dictionary HERE  ==============
+expenseDict = {}
+incomeDict = {}
+amtDict = {}
 print("=================================")
 print("    Starting amount: ")
 print("=================================")
@@ -53,21 +72,43 @@ while endProg == 0:
 	print("    [3] Exit         " + "BAL>> " + str(currentBalance)+ " " + currency)
 	print("=========================================")
 	print(" ")
+	if len(amtDict) > 0 :
+		print("=========================================")
+		print("    TRANSACTIONS ")
+		print(" (S) to save transaction  ")
+		print("=========================================")
+		for i in range(0,len(amtDict)):
+			if i in expenseDict.keys():
+				tranInd = 'E'
+			elif i in incomeDict.keys():
+				tranInd = 'I'
+			print("      " + str(amtDict[i]) + " - " + tranInd)
+		
 	menuChoice = str(input(">> "))
 	clearScreen()
 	if menuChoice in "123":
 		if menuChoice == "1":
 			while stop_opt != "1":
-				currentBalance = addExpense(currentBalance)
+				currentBalance = addExpense(currentBalance,tranCount)
+				tranCount = tranCount + 1
 				stop_opt = printBalance(currentBalance)
 				clearScreen()
 			stop_opt = " "
 		elif menuChoice == "2":
 			while stop_opt != "1":
-				currentBalance = addIncome(currentBalance)
+				currentBalance = addIncome(currentBalance, tranCount)
+				tranCount = tranCount + 1
 				stop_opt = printBalance(currentBalance)
 			stop_opt = " "
 		elif menuChoice == "3":
 			endProg = 1
+	if len(amtDict) > 0 :
+		if menuChoice in "Ss":
+			clearScreen()
+			print("SAVING")
+			input()
+			clearScreen
+			print("SAVED!")
+				
 	else:
 		print("!!!!!!!!!!!!! Not a valid option !!!!!!!!!!!!!!!!!")
